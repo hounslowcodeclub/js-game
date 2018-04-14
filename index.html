@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Making your first Phaser 3 Game - Part 1</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.1.1/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+    var platforms;
+    var player;
+    var cursors;
+    var stars;
+    var ball;
+    var marker1;
+    var marker2;
+    var marker3;
+    var marker4;
+
+    var SceneA = {
+        key: 'SceneA',
+
+        preload: function preload() {
+            console.log(this);
+            this.load.image('sky', 'assets/sky.png');
+            this.load.image('ground', 'assets/platform.png');
+            this.load.spritesheet('dude','assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+            this.load.image('ball', 'https://labs.phaser.io/assets/sprites/pangball.png');
+            this.load.image('block', 'https://labs.phaser.io/assets/sprites/block.png');
+
+        },
+
+        init: function init() {
+            console.info('SceneA init.');
+
+        },
+
+        create: function create() {
+            console.info('SceneB started.');
+
+            this.matter.world.setBounds(0, 0, 800, 600, 32, true, true, false, true);
+
+            this.add.image(400, 300, 'sky');
+
+
+
+
+            marker1 = this.add.image(500, 40, 'block');
+            createTween(this,marker1);
+
+            marker2 = this.add.image(100, 40, 'block');
+            createTween(this,marker2);
+
+            marker3 = this.add.image(300, 40, 'block');
+            createTween(this,marker3);
+
+            marker4 = this.add.image(700, 40, 'block');
+            createTween(this,marker4);
+
+
+            //  Add in a stack of balls
+            for (var i = 0; i < 2; i++)
+            {
+                ball = this.matter.add.image(Phaser.Math.Between(100, 700), Phaser.Math.Between(-600, 0), 'ball');
+                ball.setCircle();
+                ball.setFriction(0.005);
+                ball.setBounce(1);
+                ball.setMass(0.5);
+                ball.body.ignorePointer = true;
+
+            }
+
+            player = this.matter.add.image(100, 150, 'dude');
+            player.setScale(1.5);
+            player.setCircle();
+            player.setFixedRotation();
+            player.setMass(500);
+
+
+            //Enable mouse
+            this.matter.add.mouseSpring();
+            cursors = this.input.keyboard.createCursorKeys();
+
+        },
+
+        update: function update() {
+            if (cursors.left.isDown){
+                player.setVelocityX(-3);
+
+                //player.anims.play('left', true);
+            }else if(cursors.right.isDown){
+                player.setVelocityX(3);
+
+                //player.anims.play('right', true);
+            }else{
+                player.setVelocityX(0);
+
+                //player.anims.play('turn');
+            }if (cursors.up.isDown){
+                player.setVelocityY(-3);
+            }
+
+            if (Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker1.getBounds())) {
+                player.x = 10;
+                player.y = 10;
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker2.getBounds())){
+                player.x = 10;
+                player.y = 10;
+            }else if (Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker3.getBounds())) {
+                player.x = 10;
+                player.y = 10;
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker4.getBounds())){
+                player.x = 10;
+                player.y = 10;
+            }
+
+        }
+    };
+
+    function createTween(obj,marker){
+
+        obj.tweens.add({
+            targets: marker,
+            y: 580,
+            duration: 3000,
+            ease: function (t) {
+                return Math.pow(Math.sin(t * 3), 3);
+            },
+            delay: 1000,
+            repeat: -1
+        });
+    }
+
+
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        physics: {
+            default: 'matter',
+            matter: {
+                debug: false,
+                gravity: {
+                    y: 0.3
+                }
+            }
+        },
+        scene: [SceneA]
+    };
+
+    var game = new Phaser.Game(config);
+
+</script>
+
+</body>
+</html>

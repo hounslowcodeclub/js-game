@@ -18,6 +18,7 @@
     var cursors;
     var stars;
     var ball;
+    var marker = [];
     var marker1;
     var marker2;
     var marker3;
@@ -50,18 +51,24 @@
 
 
 
+            marker.push(this.add.image(500, 40, 'block'));
+            marker.push(this.add.image(100, 40, 'block'));
+            marker.push(this.add.image(300, 40, 'block'));
+            marker.push(this.add.image(700, 40, 'block'));
+            console.log(marker);
 
-            marker1 = this.add.image(500, 40, 'block');
-            createTween(this,marker1);
+/*
+            //don't understand why is it not working
+            for(var i=0;i<=marker.length;i++){
+                createTween(this,marker[i]);
+            }
+*/
 
-            marker2 = this.add.image(100, 40, 'block');
-            createTween(this,marker2);
 
-            marker3 = this.add.image(300, 40, 'block');
-            createTween(this,marker3);
-
-            marker4 = this.add.image(700, 40, 'block');
-            createTween(this,marker4);
+            createTween(this,marker[0]);
+            createTween(this,marker[1]);
+            createTween(this,marker[2]);
+            createTween(this,marker[3]);
 
 
             //  Add in a stack of balls
@@ -87,6 +94,8 @@
             this.matter.add.mouseSpring();
             cursors = this.input.keyboard.createCursorKeys();
 
+
+
         },
 
         update: function update() {
@@ -106,35 +115,52 @@
                 player.setVelocityY(-3);
             }
 
-            if (Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker1.getBounds())) {
-                player.x = 10;
-                player.y = 10;
-            }else if(Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker2.getBounds())){
-                player.x = 10;
-                player.y = 10;
-            }else if (Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker3.getBounds())) {
-                player.x = 10;
-                player.y = 10;
-            }else if(Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker4.getBounds())){
-                player.x = 10;
-                player.y = 10;
+
+
+
+/*
+            //why is it not working
+            for(var i=0;i<=marker.length;i++){
+                if (Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker[i].getBounds())) {
+                    player.x = 10;
+                    player.y = 10;
+                }
             }
+*/
+
+
+                if (Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker[0].getBounds())) {
+                    player.x = 10;
+                    player.y = 10;
+                }else if(Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker[1].getBounds())){
+                    player.x = 10;
+                    player.y = 10;
+                }else if (Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker[2].getBounds())) {
+                    player.x = 10;
+                    player.y = 10;
+                }else if(Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker[3].getBounds())){
+                    player.x = 10;
+                    player.y = 10;
+                }
+
 
         }
     };
 
-    function createTween(obj,marker){
+    function createTween(obj,mark){
 
-        obj.tweens.add({
-            targets: marker,
-            y: 580,
-            duration: 3000,
-            ease: function (t) {
-                return Math.pow(Math.sin(t * 3), 3);
-            },
-            delay: 1000,
-            repeat: -1
-        });
+
+            obj.tweens.add({
+                targets: mark,
+                y: 580,
+                duration: 3000,
+                ease: function (t) {
+                    return Math.pow(Math.sin(t * 3), 3);
+                },
+                delay: 1000,
+                repeat: -1
+            });
+
     }
 
 

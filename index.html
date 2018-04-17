@@ -19,10 +19,6 @@
     var stars;
     var ball;
     var marker = [];
-    var marker1;
-    var marker2;
-    var marker3;
-    var marker4;
 
     var SceneA = {
         key: 'SceneA',
@@ -57,19 +53,11 @@
             marker.push(this.add.image(700, 40, 'block'));
             console.log(marker);
 
-/*
+
             //don't understand why is it not working
-            for(var i=0;i<=marker.length;i++){
+            for(var i=0;i<marker.length;i++){
                 createTween(this,marker[i]);
             }
-*/
-
-
-            createTween(this,marker[0]);
-            createTween(this,marker[1]);
-            createTween(this,marker[2]);
-            createTween(this,marker[3]);
-
 
             //  Add in a stack of balls
             for (var i = 0; i < 2; i++)
@@ -115,34 +103,13 @@
                 player.setVelocityY(-3);
             }
 
-
-
-
-/*
             //why is it not working
-            for(var i=0;i<=marker.length;i++){
+            for(var i=0;i<marker.length;i++){
                 if (Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker[i].getBounds())) {
                     player.x = 10;
                     player.y = 10;
                 }
             }
-*/
-
-
-                if (Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker[0].getBounds())) {
-                    player.x = 10;
-                    player.y = 10;
-                }else if(Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker[1].getBounds())){
-                    player.x = 10;
-                    player.y = 10;
-                }else if (Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker[2].getBounds())) {
-                    player.x = 10;
-                    player.y = 10;
-                }else if(Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), marker[3].getBounds())){
-                    player.x = 10;
-                    player.y = 10;
-                }
-
 
         }
     };
